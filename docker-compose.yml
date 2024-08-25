@@ -1,79 +1,98 @@
 services:
-  server:
-    image: irene-ai/server:latest
-    container_name: irene-ai/server
-    build: ./server 
-    ports:
-      - "8000:8000"   # Irene default port
-    env_file:
-      - ./server/.env
-    volumes:
-      - ./server:/code
-      - /code/__pycache__/
-    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
-    restart: always
+  # server:
+  #   image: "irene:latest"
+  #   container_name: "irene"
+  #   build: .
+  #   ports:
+  #     - "8000:8000"   # Irene default port
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - ./:/code
+  #     - /code/__pycache__/
+  #   command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+  #   restart: always
+  #   networks:
+  #     - irene-network
 
-  redis:
-    image: "redis:latest"
-    container_name: irene-ai/redis
-    ports:
-      - "6379:6379"   # Redis default port
-    restart: always
+  # redis:
+  #   image: "redis:latest"
+  #   container_name: "redis"
+  #   ports:
+  #     - "6379:6379"   # Redis default port
+  #   restart: always
+  #   networks:
+  #     - irene-network
 
-  redis-commander:
-    image: "rediscommander/redis-commander:latest"
-    container_name: irene-ai/redis-commander
-    environment:
-      - REDIS_HOSTS=local:redis:6379
-    ports:
-      - "8082:8081"   # Redis Commander UI port
-    depends_on:
-      - redis
-    restart: always
+  # redis-commander:
+  #   image: "rediscommander/redis-commander:latest"
+  #   container_name: "redis-commander"
+  #   environment:
+  #     - REDIS_HOSTS=local:redis:6379
+  #   ports:
+  #     - "8082:8081"   # Redis Commander UI port
+  #   depends_on:
+  #     - redis
+  #   restart: always
+  #   networks:
+  #     - irene-network
 
-  mongodb:
+  mongo:
     image: "mongo:latest"
-    container_name: irene-ai/mongodb
+    container_name: "mongo"
     ports:
       - "27017:27017" # MongoDB default port
     volumes:
-      - mongodb_data:/data/db
+      - mongo_data:/data/db
+      - ./scripts/mongo/:/docker-entrypoint-initdb.d/
     restart: always
+    networks:
+      - irene-network
 
   mongo-express:
     image: "mongo-express:latest"
-    container_name: irene-ai/mongo-express
+    container_name: "mongo-express"
     environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=example
-      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=admin
     ports:
       - "8081:8081"   # Mongo Express UI port
     depends_on:
-      - mongodb
+      - mongo
     restart: always
+    networks:
+      - irene-network
 
-  prometheus:
-    image: "prom/prometheus:latest"
-    container_name: irene-ai/prometheus
-    volumes:
-      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090"   # Prometheus UI port
-    restart: always
+  # prometheus:
+  #   image: "prom/prometheus:latest"
+  #   container_name: "prometheus"
+  #   volumes:
+  #     - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  #   ports:
+  #     - "9090:9090"   # Prometheus UI port
+  #   restart: always
+  #   networks:
+  #     - irene-network
 
-  grafana:
-    image: "grafana/grafana:latest"
-    container_name: irene-ai/grafana
-    environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-    ports:
-      - "3000:3000"   # Grafana UI port
-    restart: always
-    depends_on:
-      - prometheus
+  # grafana:
+  #   image: "grafana/grafana:latest"
+  #   container_name: "grafana"
+  #   environment:
+  #     - GF_SECURITY_ADMIN_USER=admin
+  #     - GF_SECURITY_ADMIN_PASSWORD=admin
+  #   ports:
+  #     - "3000:3000"   # Grafana UI port
+  #   restart: always
+  #   depends_on:
+  #     - prometheus
+  #   networks:
+  #     - irene-network
 
 volumes:
   prometheus_data: {}
-  mongodb_data: {}
+  mongo_data: {}
+
+networks:
+  irene-network:
+    driver: bridge

@@ -47,6 +47,30 @@ The application can use environment variables for configuration. Copy the `.env.
 cp .env.example .env
 ```
 
+## Accessing the Services
+
+The services can be accessed using the following URLs:
+
+- **Irene Server`**: 
+  - URL: `http://localhost:8000`
+  - Description: This is the main API endpoint for the Irene server, where the FastAPI application is running.
+
+- **Redis Commander**: 
+  - URL: `http://localhost:8082`
+  - Description: Redis Commander provides a web-based interface to manage and interact with your Redis instance.
+
+- **Mongo Express**: 
+  - URL: `http://localhost:8081`
+  - Description: Mongo Express offers a web-based interface to view and manage your MongoDB collections and documents.
+
+- **Prometheus**: 
+  - URL: `http://localhost:9090`
+  - Description: Prometheus is used for monitoring and alerting. This URL provides access to the Prometheus web UI for querying metrics and setting up alerts.
+
+- **Grafana**: 
+  - URL: `http://localhost:3000`
+  - Description: Grafana is a powerful visualization tool. Use this URL to access the Grafana web UI, where you can create dashboards and visualize data collected by Prometheus.
+
 ## Testing
 
 To run the tests, use the following command:

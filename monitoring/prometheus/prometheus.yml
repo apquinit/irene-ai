@@ -1,0 +1,28 @@
+global:
+  scrape_interval: 15s  # How often to scrape targets by default.
+  evaluation_interval: 15s  # How often to evaluate rules by default.
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']  # Prometheus scraping itself
+
+  - job_name: 'irene-server'
+    static_configs:
+      - targets: ['irene:8000']  # Irene FastAPI server
+
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis:6379']  # Redis instance
+
+  - job_name: 'mongodb'
+    static_configs:
+      - targets: ['mongodb:27017']  # MongoDB instance
+
+  - job_name: 'redis-commander'
+    static_configs:
+      - targets: ['redis-commander:8082']  # Redis Commander UI
+
+  - job_name: 'mongo-express'
+    static_configs:
+      - targets: ['mongo-express:8081']  # Mongo Express UI
