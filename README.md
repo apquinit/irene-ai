@@ -9,55 +9,35 @@ Irene is an intelligent AI assistant designed to enhance your daily life. Whethe
 
 ## Setup and Installation
 
-### 1. Clone the Repository
+This project can be easily set up using Docker. Below are the instructions to build and run the server and other associated services using Docker and Docker Compose.
 
-```bash
-git clone https://github.com/apquinit/irene-ai.git
-cd irene-ai
-```
+### Building and Running the Containers
 
-### 2. Create and Activate a Virtual Environment
+To build and run the Docker containers, follow these steps:
 
-It is recommended to use a virtual environment to manage dependencies.
+1. **Build the Docker Images**
 
-#### On macOS/Linux:
+   Navigate to the directory containing your `docker-compose.yml` file and run:
 
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
+   ```bash
+   docker-compose build
+   ```
 
-#### On Windows:
+2. **Start the Containers**
 
-```bash
-python -m venv venv
-venv\Scripts\activate
-```
+   After building, you can start all the containers using:
 
-### 3. Install Dependencies
+   ```bash
+   docker-compose up
+   ```
 
-After activating the virtual environment, install the required packages:
+3. **Stopping the Containers**
 
-```bash
-pip install -r requirements.txt
-```
+   To stop and remove all the running containers, use:
 
-### 4. Run the Application
-
-You can start the FastAPI server by running the following command:
-
-```bash
-uvicorn app.main:app --reload
-```
-
-This will start the server on `http://127.0.0.1:8000`. The `--reload` flag is useful during development as it automatically reloads the server when code changes are detected.
-
-### 5. Access the API Documentation
-
-The API documentation that can be accessed in your browser:
-
-- **Swagger UI**: `http://127.0.0.1:8000/docs`
-- **Redoc**: `http://127.0.0.1:8000/redoc`
+   ```bash
+   docker-compose down
+   ```
 
 ## Environment Variables
 
@@ -78,7 +58,3 @@ pytest
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

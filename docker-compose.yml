@@ -4,7 +4,7 @@ services:
     container_name: irene-ai/server
     build: ./server 
     ports:
-      - "8000:8000"   # Irene server port
+      - "8000:8000"   # Irene default port
     env_file:
       - ./server/.env
     volumes:
@@ -13,12 +13,44 @@ services:
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
     restart: always
 
-  rabbitmq:
-    image: "rabbitmq:3-management"
-    container_name: irene-ai/rabbitmq
+  redis:
+    image: "redis:latest"
+    container_name: irene-ai/redis
     ports:
-      - "5672:5672"   # RabbitMQ message broker port
-      - "15672:15672" # RabbitMQ management UI port
+      - "6379:6379"   # Redis default port
+    restart: always
+
+  redis-commander:
+    image: "rediscommander/redis-commander:latest"
+    container_name: irene-ai/redis-commander
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8082:8081"   # Redis Commander UI port
+    depends_on:
+      - redis
+    restart: always
+
+  mongodb:
+    image: "mongo:latest"
+    container_name: irene-ai/mongodb
+    ports:
+      - "27017:27017" # MongoDB default port
+    volumes:
+      - mongodb_data:/data/db
+    restart: always
+
+  mongo-express:
+    image: "mongo-express:latest"
+    container_name: irene-ai/mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=example
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+    ports:
+      - "8081:8081"   # Mongo Express UI port
+    depends_on:
+      - mongodb
     restart: always
 
   prometheus:
@@ -44,3 +76,4 @@ services:
 
 volumes:
   prometheus_data: {}
+  mongodb_data: {}
