@@ -1,0 +1,46 @@
+services:
+  server:
+    image: irene-ai/server:latest
+    container_name: irene-ai/server
+    build: ./server 
+    ports:
+      - "8000:8000"   # Irene server port
+    env_file:
+      - ./server/.env
+    volumes:
+      - ./server:/code
+      - /code/__pycache__/
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    restart: always
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    container_name: irene-ai/rabbitmq
+    ports:
+      - "5672:5672"   # RabbitMQ message broker port
+      - "15672:15672" # RabbitMQ management UI port
+    restart: always
+
+  prometheus:
+    image: "prom/prometheus:latest"
+    container_name: irene-ai/prometheus
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"   # Prometheus UI port
+    restart: always
+
+  grafana:
+    image: "grafana/grafana:latest"
+    container_name: irene-ai/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+      - "3000:3000"   # Grafana UI port
+    restart: always
+    depends_on:
+      - prometheus
+
+volumes:
+  prometheus_data: {}
