@@ -1,41 +1,41 @@
 services:
-  # server:
-  #   image: "irene:latest"
-  #   container_name: "irene"
-  #   build: .
-  #   ports:
-  #     - "8000:8000"   # Irene default port
-  #   env_file:
-  #     - .env
-  #   volumes:
-  #     - ./:/code
-  #     - /code/__pycache__/
-  #   command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
-  #   restart: always
-  #   networks:
-  #     - irene-network
+  server:
+    image: "irene:latest"
+    container_name: "irene"
+    build: .
+    ports:
+      - "8000:8000"   # Irene default port
+    env_file:
+      - .env
+    volumes:
+      - ./:/code
+      - /code/__pycache__/
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    restart: always
+    networks:
+      - irene-network
 
-  # redis:
-  #   image: "redis:latest"
-  #   container_name: "redis"
-  #   ports:
-  #     - "6379:6379"   # Redis default port
-  #   restart: always
-  #   networks:
-  #     - irene-network
+  redis:
+    image: "redis:latest"
+    container_name: "redis"
+    ports:
+      - "6379:6379"   # Redis default port
+    restart: always
+    networks:
+      - irene-network
 
-  # redis-commander:
-  #   image: "rediscommander/redis-commander:latest"
-  #   container_name: "redis-commander"
-  #   environment:
-  #     - REDIS_HOSTS=local:redis:6379
-  #   ports:
-  #     - "8082:8081"   # Redis Commander UI port
-  #   depends_on:
-  #     - redis
-  #   restart: always
-  #   networks:
-  #     - irene-network
+  redis-commander:
+    image: "rediscommander/redis-commander:latest"
+    container_name: "redis-commander"
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8082:8081"   # Redis Commander UI port
+    depends_on:
+      - redis
+    restart: always
+    networks:
+      - irene-network
 
   mongo:
     image: "mongo:latest"
@@ -44,7 +44,6 @@ services:
       - "27017:27017" # MongoDB default port
     volumes:
       - mongo_data:/data/db
-      - ./scripts/mongo/:/docker-entrypoint-initdb.d/
     restart: always
     networks:
       - irene-network
@@ -64,30 +63,30 @@ services:
     networks:
       - irene-network
 
-  # prometheus:
-  #   image: "prom/prometheus:latest"
-  #   container_name: "prometheus"
-  #   volumes:
-  #     - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-  #   ports:
-  #     - "9090:9090"   # Prometheus UI port
-  #   restart: always
-  #   networks:
-  #     - irene-network
+  prometheus:
+    image: "prom/prometheus:latest"
+    container_name: "prometheus"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"   # Prometheus UI port
+    restart: always
+    networks:
+      - irene-network
 
-  # grafana:
-  #   image: "grafana/grafana:latest"
-  #   container_name: "grafana"
-  #   environment:
-  #     - GF_SECURITY_ADMIN_USER=admin
-  #     - GF_SECURITY_ADMIN_PASSWORD=admin
-  #   ports:
-  #     - "3000:3000"   # Grafana UI port
-  #   restart: always
-  #   depends_on:
-  #     - prometheus
-  #   networks:
-  #     - irene-network
+  grafana:
+    image: "grafana/grafana:latest"
+    container_name: "grafana"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+      - "3000:3000"   # Grafana UI port
+    restart: always
+    depends_on:
+      - prometheus
+    networks:
+      - irene-network
 
 volumes:
   prometheus_data: {}

@@ -62,6 +62,8 @@ The services can be accessed using the following URLs:
 - **Mongo Express**: 
   - URL: `http://localhost:8081`
   - Description: Mongo Express offers a web-based interface to view and manage your MongoDB collections and documents.
+  - Username: `admin`
+  - Password: `admin`
 
 - **Prometheus**: 
   - URL: `http://localhost:9090`
@@ -70,6 +72,8 @@ The services can be accessed using the following URLs:
 - **Grafana**: 
   - URL: `http://localhost:3000`
   - Description: Grafana is a powerful visualization tool. Use this URL to access the Grafana web UI, where you can create dashboards and visualize data collected by Prometheus.
+  - Username: `admin`
+  - Password: `admin`
 
 ## Testing
 
