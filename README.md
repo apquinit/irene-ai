@@ -53,7 +53,7 @@ The services can be accessed using the following URLs:
 
 - **Irene Server`**: 
   - URL: `http://localhost:8000`
-  - Description: This is the main API endpoint for the Irene server, where the FastAPI application is running.
+  - Description: This is the main API endpoint for the Irene server.
 
 - **Redis Commander**: 
   - URL: `http://localhost:8082`
