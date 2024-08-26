@@ -5,7 +5,7 @@ Irene is an intelligent AI assistant designed to enhance your daily life. Whethe
 ## Prerequisites
 
 - Python 3.7+
-- `virtualenv` (optional but recommended)
+- Docker
 
 ## Setup and Installation
 
