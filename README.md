@@ -9,7 +9,40 @@ Irene is an intelligent AI assistant designed to enhance your daily life. Whethe
 
 ## Setup and Installation
 
-This project can be easily set up using Docker. Below are the instructions to build and run the server and other associated services using Docker and Docker Compose.
+To get started with the project, follow these steps:
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/apquinit/irene-ai.git
+cd irene-ai
+```
+
+### 2. Create and Activate a Virtual Environment
+
+It is recommended to use a virtual environment to manage dependencies.
+
+#### On macOS/Linux:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+#### On Windows:
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+### 3. Install Dependencies
+
+After activating the virtual environment, install the required packages:
+
+```bash
+pip install -r requirements.txt
+```
 
 ### Building and Running the Containers
 
@@ -54,6 +87,14 @@ The services can be accessed using the following URLs:
 - **Irene Server`**: 
   - URL: `http://localhost:8000`
   - Description: This is the main API endpoint for the Irene server.
+
+- **Swagger**:
+  - URL: `http://localhost:8000/docs`
+  - Description: Swagger provides a web-based interface to interact with the Irene API.
+
+- **Redoc**:
+  - URL: `http://localhost:8000/redoc`
+  - Description: Redoc provides a web-based interface to view the Irene API documentation.
 
 - **Redis Commander**: 
   - URL: `http://localhost:8082`
