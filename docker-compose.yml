@@ -10,7 +10,7 @@ services:
     volumes:
       - ./:/code
       - /code/__pycache__/
-    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
     restart: always
     networks:
       - irene-network
